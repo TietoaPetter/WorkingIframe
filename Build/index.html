@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>ISKU Working 360</title>
+		<link rel="shortcut icon" href="TemplateData/favicon.ico">
+		<link rel="stylesheet" href="TemplateData/style.css">
+		<script src="TemplateData/UnityProgress.js"></script>  
+		<script src="Build/UnityLoader.js"></script>
+		<script src="https://hammerjs.github.io/dist/hammer.min.js"> //TODO: Include in the Template Build folder</script>
+		<script>
+		var gameInstance = UnityLoader.instantiate("gameContainer", "Build/Build.json", {onProgress: UnityProgress});
+		</script>
+		<script src="TemplateData/UnityInput.js"></script>
+	</head> 
+	<body>
+    <div class="webgl-content" id="canvasParent">
+      <div id="gameContainer"></div>
+    </div>
+	</body>	    
+</html>
