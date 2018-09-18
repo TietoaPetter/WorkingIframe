@@ -123,7 +123,7 @@ gameInstance.Module.onRuntimeInitialized = function()
 	});	
 	
 
-	mc.on("singletap", function(ev) {
+	mc.on("singletap", function(ev) {		
 		var pos = ValidatePosition(ev.center)
 		SendPosition(pos[0],pos[1]);
 		c_singletap();
@@ -174,12 +174,8 @@ gameInstance.Module.onRuntimeInitialized = function()
 };
 
 window.onload = function() {
-//touchDiv = createTouchDiv("touchDiv");
-
+	
 cnvas = document.getElementById("gameContainer");
-cnvasParent = document.getElementById("canvasParent");
-
-//fitCanvasToScreen();
 }
 
 function setFullscreenIfMobile(){
@@ -221,11 +217,10 @@ function ValidatePosition(center)
 	}
 	else
 	{
-		//canvasX = center.x - window.offsetLeft + (window.innerWidth/2);
 		canvasX = center.x;
-		//canvasY = (window.innerHeight - (center.y - window.offsetTop))-window.scrollY;
-		canvasY = (window.innerHeight - center.y) - 16; //- window.frameElement.offsetTop
+		canvasY = (cnvas.clientHeight - center.y); 
 	}
+	
 	
 	return [canvasX,canvasY];
 }
@@ -261,7 +256,6 @@ function resize()
 	//Iframe based equivalence
 	fullscreen = (window.innerHeight == window.outerHeight);
 
-
 	if(fullscreen && UnityLoader.SystemInfo.mobile && UnityLoader.SystemInfo.os != "iOS")
 	{		
 		screen.orientation.lock('landscape');
@@ -270,98 +264,6 @@ function resize()
 	c_setfullscreenstate(fullscreen);
 	SendPosition(0,0); //TODO: Clean up redundant legacy fullscreen code and send dedicated IO
 	c_anyinput(1);
-}
-
-//This is an alternative touch surface that can be used for debugging fake fullscreen mode
-function createTouchDiv(idName)
-{
-	var div = document.createElement('div');
-	document.body.appendChild(div);
-	div.id = idName;
-	div.style.position = 'fixed';
-	div.style.border = '0px';
-	div.style.margin = 'auto';
-	div.style.padding = '0px';
-	//div.style.backgroundColor = 'rgba(256,0,0,0.2)'; //Debug
-
-	div.style.width = window.innerWidth +'px';
-	div.style.height = window.innerHeight +'px';
-
-	div.style.top = '0px';
-	div.style.left = '0px';
-	div.style.zIndex = '-5'; 
-
-	
-	div.style.marginTop = '0px';
-	div.style.marginLeft = '0px';
-	return div;
-}
-
-//This is an unfinished fake fullscreen function for iOS. It's ugly and very much WIP.
-function RotateDiv(rotatable)
-{
-	if(fakeLandscape)
-	{
-		div.style.zIndex = '5'; 
-		
-		rotatable.style.width = window.innerHeight +'px';
-		rotatable.style.height = window.innerWidth +'px';
-		  	  
-		rotatable.style.top = 50+'%';
-		rotatable.style.left = 50+'%';
-	
-		rotatable.style.marginTop = -(window.innerWidth/2)+'px';
-		rotatable.style.marginLeft = -(window.innerHeight/2)+'px';
-				
-		rotatable.style.transform = 'rotate(90deg)';
-	}
-	else
-	{
-		div.style.zIndex = '5'; 
-		
-		rotatable.style.width = window.innerWidth +'px';
-		rotatable.style.height = window.innerHeight +'px';
-
-		rotatable.style.top = 50+'%';
-		rotatable.style.left = 50+'%';
-	
-		rotatable.style.marginTop = -(window.innerHeight/2)+'px';
-		rotatable.style.marginLeft = -(window.innerWidth/2)+'px';
-		
-		rotatable.style.transform = 'rotate(0deg)';
-	}
-		cnvas.style.width = '100%';
-		cnvas.style.height = '100%';
-
-		touchDiv.style.width = window.innerWidth +'px';
-		touchDiv.style.height = window.innerHeight +'px';
-}
-
-//This is an unfinished fake fullscreen function for iOS. It's ugly and very much WIP.
-function CheckIfPortraitMode()
-{
-	if(initialized)
-	{
-		if(UnityLoader.SystemInfo.os == "iOS")
-		{
-			c_orientationchange();
-		}
-		else
-		{
-			c_anyinput();	
-		}
-	}
-	if(UnityLoader.SystemInfo.os == "iOS")
-	{
-		if(window.innerWidth > window.innerHeight)
-		{
-			fakeLandscape =  false;
-		}
-		else
-		{
-			fakeLandscape = true;
-		}
-	}
 }
 	
 
